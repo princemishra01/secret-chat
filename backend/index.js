@@ -1,12 +1,23 @@
 const express = require('express');
 const http = require('http');
 const socketIO = require('socket.io');
+const cors = require('cors');
 
 const app = express();
+app.use(cors(
+    {
+        origin: "*",
+        methods: '*',
+        headers: '*'
+    }
+));
+
 const server = http.createServer(app);
 const io = socketIO(server, {
     cors : {
-        origin: '*',
+        origin: "*",
+        methods: '*',
+        headers: '*'
     }
 });
 
@@ -33,6 +44,10 @@ io.on('connection', (socket) => {
         socket.leave(room);
         console.log('A user left room', room);
     });
+});
+
+app.get('/', (req, res) => {
+    res.send('test route');
 });
 
 const port = 5000;

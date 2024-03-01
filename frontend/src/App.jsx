@@ -4,7 +4,7 @@ import socketIOClient from "socket.io-client";
 
 export const Notification = ({notificationMessage}) => {
   return (
-    <div className='text-white absolute bottom-1 right-1 border border-gray-200 rounded-lg p-4 mb-4 bg-indigo-600 w-1/5'>
+    <div className='text-white absolute bottom-1 right-1 border border-gray-200 rounded-lg p-4 mb-4 bg-indigo-600 lg:w-1/5'>
       <h2 className="text-md font-bold mb-2">Notification</h2>
       <div className="">
         <p className="text-white">{notificationMessage}</p>
@@ -28,9 +28,9 @@ export const MessageArea = ({ messages, setMessages , username, socket, room}) =
   }
 
   return (
-    <div className="w-1/2 p-4">
+    <div className="md:w-1/2 p-4">
     <h2 className="text-lg font-bold mb-2">Chat Area</h2>
-    <div className="border border-gray-200 rounded-lg p-4 mb-4 overflow-y-scroll h-[50vh]">
+    <div className="border border-gray-200 rounded-lg p-4 mb-4 overflow-y-scroll h-[50vh] w-[80vw] md:w-full">
       {
         messages.map((msg, index) => {
           return (
@@ -57,7 +57,7 @@ export const MessageArea = ({ messages, setMessages , username, socket, room}) =
 
 export const Login = ({setUsername , username}) => {
   return (
-    <div className='m-auto mt-12 w-[40%]'>
+    <div className='m-auto mt-12 md:w-[50%]'>
       <h2 className="text-lg font-bold mb-2">Enter your username</h2>
       <input type="text" id="username" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md text-lg p-4 bg-slate-100"/>
       <button onClick={() => {setUsername(document.getElementById("username").value)}} className="mt-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Login</button>
@@ -72,7 +72,7 @@ export const Home = ({setUsername, username, setNotificationMessage}) => {
   const [socket, setSocket] = useState(null);
   
   useEffect(() => {
-    const socket = socketIOClient("http://localhost:5000");
+    const socket = socketIOClient("https://secret-chat-api.princemishra.live");
     setSocket(socket);
     socket.on("message", (msg) => {
       console.log(msg)
@@ -100,8 +100,8 @@ export const Home = ({setUsername, username, setNotificationMessage}) => {
     setNotificationMessage(`You have left the room ${room} and all the messages are cleared.`);
   }
   return (
-    <div className="flex">
-      <div className="w-1/2 p-4">
+    <div className="flex flex-col w-100 md:flex-row">
+      <div className="md:w-1/2 p-4">
         <h2 className="text-lg font-bold mb-2">Welcome {username}</h2>
         {
           !room ? 

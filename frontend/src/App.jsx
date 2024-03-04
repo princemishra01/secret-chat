@@ -19,6 +19,7 @@ export const MessageArea = ({ messages, setMessages , username, socket, room}) =
     const newMessage = {username, message: currentMsgRef.current.value, timestamp: new Date().toLocaleTimeString()};
     // setMessages(messages => [...messages, newMessage]);
     socket.emit("message", {newMessage, room});
+    currentMsgRef.current.value = "";
   }
 
   onkeydown = (e) => {
@@ -27,10 +28,15 @@ export const MessageArea = ({ messages, setMessages , username, socket, room}) =
     }
   }
 
+  useEffect(() => {
+    const chat = document.getElementById('chat');
+    chat.scrollTop = chat.scrollHeight;
+  }, [messages])
+
   return (
     <div className="md:w-1/2 p-4">
     <h2 className="text-lg font-bold mb-2">Chat Area</h2>
-    <div className="border border-gray-200 rounded-lg p-4 mb-4 overflow-y-scroll h-[50vh] w-[80vw] md:w-full">
+    <div id='chat' className="border border-gray-200 rounded-lg p-4 mb-4 overflow-y-scroll h-[50vh] w-[80vw] md:w-full">
       {
         messages.map((msg, index) => {
           return (
@@ -75,7 +81,7 @@ export const Home = ({setUsername, username, setNotificationMessage}) => {
     const socket = socketIOClient("https://secret-chat-api.princemishra.live");
     setSocket(socket);
     socket.on("message", (msg) => {
-      console.log(msg)
+      // console.log(msg)
       setMessages(messages => [...messages, msg]);
     })
     // console.log(username);
